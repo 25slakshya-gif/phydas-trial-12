@@ -39,8 +39,8 @@ import numpy as np
 # Configuration (placeholders -- not extracted from any source material)
 # ---------------------------------------------------------------------
 CONFIG = {
-    "dataset_root": "./dataset",
-    "checkpoint_out": "trial_12_pro_model.pth",
+    "dataset_root": "/content/drive/MyDrive/KLA/dataset",
+    "checkpoint_out": "/content/drive/MyDrive/KLA/checkpoints/trial_12_pro_model.pth",
     "base_width": 32,
     "batch_size": 8,
     "epochs": 50,
