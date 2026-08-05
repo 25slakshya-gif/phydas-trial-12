@@ -46,19 +46,18 @@ def load_checkpoint(model_path, model, device):
     return a, b
 
 
-def save_checkpoint(model_path, model, a, b):
-    """
-    NOT present in the original script (which only ever loaded a
-    checkpoint, never saved one). Added as a minimal counterpart so
-    train.py can persist weights + the a/b normalization baselines in
-    the same dict shape the original loader expects
-    (`ckpt['model_state_dict']`, `ckpt['a']`, `ckpt['b']`).
-    """
+def save_checkpoint(path, epoch, model, optimizer, scheduler,
+                    best_psnr, a, b):
+
     torch.save({
-        'model_state_dict': model.state_dict(),
-        'a': a,
-        'b': b,
-    }, model_path)
+        "epoch": epoch,
+        "model_state_dict": model.state_dict(),
+        "optimizer_state_dict": optimizer.state_dict(),
+        "scheduler_state_dict": scheduler.state_dict(),
+        "best_psnr": best_psnr,
+        "a": a,
+        "b": b,
+    }, path)
 
 
 def denormalize_and_clamp(out_tensor, a, b):
