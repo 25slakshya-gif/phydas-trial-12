@@ -118,7 +118,7 @@ def main():
     criterion = get_loss_fn(CONFIG["loss_name"])
 
     best_psnr = -1.0
-
+    
     for epoch in range(CONFIG["epochs"]):
         model.train()
         running_loss = 0.0

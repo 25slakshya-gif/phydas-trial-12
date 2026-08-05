@@ -46,18 +46,38 @@ def load_checkpoint(model_path, model, device):
     return a, b
 
 
-def save_checkpoint(path, epoch, model, optimizer, scheduler,
-                    best_psnr, a, b):
+def save_checkpoint(
+    model_path,
+    epoch,
+    model,
+    optimizer,
+    scheduler,
+    best_psnr,
+    a,
+    b
+):
 
     torch.save({
+
         "epoch": epoch,
-        "model_state_dict": model.state_dict(),
-        "optimizer_state_dict": optimizer.state_dict(),
-        "scheduler_state_dict": scheduler.state_dict(),
-        "best_psnr": best_psnr,
+
+        "model_state_dict":
+            model.state_dict(),
+
+        "optimizer_state_dict":
+            optimizer.state_dict(),
+
+        "scheduler_state_dict":
+            scheduler.state_dict(),
+
+        "best_psnr":
+            best_psnr,
+
         "a": a,
+
         "b": b,
-    }, path)
+
+    }, model_path)
 
 
 def denormalize_and_clamp(out_tensor, a, b):
