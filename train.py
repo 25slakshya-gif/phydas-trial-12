@@ -116,10 +116,50 @@ def main():
     )
 
     criterion = get_loss_fn(CONFIG["loss_name"])
+    start_epoch = 0
+    best_psnr = -1
 
-    best_psnr = -1.0
+    if os.path.exists(CONFIG["checkpoint_out"]):
+
+        print("Checkpoint found.")
+
+        ckpt = torch.load(
+            CONFIG["checkpoint_out"],
+            map_location=device
+        )
+
+        model.load_state_dict(
+            ckpt["model_state_dict"]
+        )
+
+        if "optimizer_state_dict" in ckpt:
+            optimizer.load_state_dict(
+                ckpt["optimizer_state_dict"]
+            )
+
+        if "scheduler_state_dict" in ckpt:
+            scheduler.load_state_dict(
+                ckpt["scheduler_state_dict"]
+            )
+
+        if "epoch" in ckpt:
+            start_epoch = ckpt["epoch"] + 1
+
+        if "best_psnr" in ckpt:
+            best_psnr = ckpt["best_psnr"]
+
+        a = ckpt["a"]
+        b = ckpt["b"]
+
+        print(
+            f"Resuming from epoch {start_epoch}"
+        )
     
-    for epoch in range(CONFIG["epochs"]):
+    
+    for epoch in range(
+        start_epoch,
+        CONFIG["epochs"]
+    ):
         model.train()
         running_loss = 0.0
 
@@ -143,7 +183,25 @@ def main():
 
         if val_psnr > best_psnr:
             best_psnr = val_psnr
-            save_checkpoint(CONFIG["checkpoint_out"], model, a, b)
+            save_checkpoint(
+
+                CONFIG["checkpoint_out"],
+
+                epoch,
+
+                model,
+
+                optimizer,
+
+                scheduler,
+
+                best_psnr,
+
+                a,
+
+                b
+
+            )
             print(f"  -> New best checkpoint saved (val_psnr={val_psnr:.4f})")
 
 
