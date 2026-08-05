@@ -43,7 +43,7 @@ CONFIG = {
     "checkpoint_out": "/content/drive/MyDrive/KLA/checkpoints/trial_12_pro_model.pth",
     "base_width": 32,
     "batch_size": 8,
-    "epochs": 5,
+    "epochs": 50,
     "lr": 1e-4,
     "val_fraction": 0.1,
     "scheduler_step_size": 20,
